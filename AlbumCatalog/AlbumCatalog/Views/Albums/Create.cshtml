@@ -1,0 +1,57 @@
+﻿@model DataAccess.Album
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<html>
+<head runat="server">
+    <title>Create</title>
+</head>
+<body>
+    <div>
+
+        <h1>Create New Album</h1>
+
+        @using (Html.BeginForm("Create", "Albums", FormMethod.Post, new { enctype="multipart/form-data"}))
+        {
+            <p />
+            <div>
+                @Html.LabelFor(model => model.Artist)
+                @Html.EditorFor(model => model.Artist)
+                @Html.ValidationMessageFor(model => model.Artist)
+            </div>
+            <p />
+            <div>
+                @Html.LabelFor(model => model.Title)
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+            <p />
+            <div>
+                @Html.LabelFor(model => model.ReleaseDate)
+                @Html.EditorFor(model => model.ReleaseDate)
+                @Html.ValidationMessageFor(model => model.ReleaseDate)
+            </div>
+            <p />
+            <div>
+                <label for="thumbnail">Album Cover:</label>
+                <input type="file" id="thumbnail" name="thumbnail" />
+            </div>
+            <p />
+            <div>
+                @Html.LabelFor(model => model.Rating)
+                @Html.EditorFor(model => model.Rating, new { placeholder="1-10"})
+                @Html.ValidationMessageFor(model => model.Rating)
+            </div>
+            <p />
+            <div>
+                <label></label>
+                <input type="submit" value="Create" />
+            </div>
+        }
+    </div>
+
+</body>
+
+</html>

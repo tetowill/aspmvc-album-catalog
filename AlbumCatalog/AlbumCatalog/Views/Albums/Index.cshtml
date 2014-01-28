@@ -1,0 +1,42 @@
+﻿@model DataAccess.Album[]
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>All Albums</title>
+</head>
+<body>
+    <div id="all">
+
+        <h1>All Albums</h1>
+
+        @foreach (var Album in Model) {
+        <div class="album">
+        <p><span class="label">Artist:</span> @Album.Artist</p>
+        <p><span class="label">Album Title:</span> @Album.Title</p>
+        <p><span class="label">Release Date:</span> @Album.ReleaseDate</p>
+        <p><span class="label">Album ID:</span> @Album.AlbumId</p>
+        <p><meter value="@Album.Rating" min="1" max="10">Rating: @Album.Rating</meter></p>
+        <img src="@Url.Action("Thumbnail", new { AlbumId = Album.AlbumId })" alt="@Album.Title" />
+        </div>
+        }
+
+        <p class="clear" />
+
+    </div>
+
+    <script>
+        $(function () {
+            $('.album').click(function () {
+                $(this).toggleClass("selected");
+            });
+        });
+    </script>
+
+</body>
+</html>

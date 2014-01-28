@@ -1,0 +1,65 @@
+﻿@model DataAccess.Album[]
+
+@{
+    ViewBag.Title = "Available";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Available Albums</title>
+</head>
+<body>
+    <div id="available">
+
+        <h1>Available Albums</h1>
+
+        @foreach (var Album in Model) {
+            if (!Album.IsCheckedOut) {
+                <div class="album" id="@Album.AlbumId">
+                <p><span class="label">Artist:</span> @Album.Artist</p>
+                <p><span class="label">Album Title:</span> @Album.Title</p>
+                <p><span class="label">Release Date:</span> @Album.ReleaseDate</p>
+                <p><span class="label">Album ID:</span> @Album.AlbumId</p>
+                <p><meter value="@Album.Rating" min="1" max="10">Rating: @Album.Rating</meter></p>
+                <img src="@Url.Action("Thumbnail", new { AlbumId = Album.AlbumId })" alt="@Album.Title" />
+                </div>
+            }
+        }
+
+        <p class="clear" />
+
+        <div class="albumBtns">
+            <a class="button" id="checkout" href="#">Check Out</a>
+        </div>
+
+    </div>
+
+    <script>
+        $(function () {
+            $('.album').click(function () {
+                $(this).toggleClass("selected");
+            });
+
+            $("#checkout").click(function () {
+                var ids = [];
+                if ($("div.selected").length > 0) {
+                    $("div.selected").each(function () {
+                        ids.push($(this).attr("id"));
+                    });
+                    $.post('@Url.Action("checkout")', { ids: JSON.stringify(ids) }, function (data) {
+                        alert(data.msg);
+                        location.reload(true);
+                    }, "json").error(function () {
+                        alert(data.msg);
+                    });
+                } else {
+                    alert("Please select an album to check out.");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
